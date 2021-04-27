@@ -1,7 +1,6 @@
 import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
-import { Store } from 'vuex';
-import { StateInterface } from '../store';
+import { AuthStore } from '../store/AuthStoreModule'
 import routes from './routes';
 
 /*
@@ -9,9 +8,8 @@ import routes from './routes';
  * directly export the Router instantiation
  */
 
-export default route<Store<StateInterface>>(function ({ Vue }) {
+export default route(function ({ Vue }) {
   Vue.use(VueRouter);
-
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
@@ -22,6 +20,15 @@ export default route<Store<StateInterface>>(function ({ Vue }) {
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   });
+
+  Router.beforeEach((to, from, next) => {
+    console.log(AuthStore.authToken);
+    if (AuthStore.authToken === '' && to.path != '/login') {
+      next('/login');
+    } else {
+      next();
+    }
+  })
 
   return Router;
 })

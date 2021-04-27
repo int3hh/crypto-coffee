@@ -36,6 +36,7 @@
 <script lang="ts">
 
 import { defineComponent, ref } from '@vue/composition-api';
+import { AuthStore } from '../store/AuthStoreModule';
 
 export default defineComponent({
   name: 'Login',
@@ -51,6 +52,7 @@ export default defineComponent({
   },
   methods: {
      login () {
+         AuthStore.setAuthToken('pulalala');
        alert(this.user)
      }
   }
