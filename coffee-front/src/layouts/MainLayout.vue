@@ -12,10 +12,12 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          <img src="../assets/logo.png" style="width:30px;margin-top:3px;">
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+              <q-btn color="secondary" icon="fas fa-sign-out-alt" label="Logout" @click="logout" />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -95,6 +97,7 @@ const linksData = [
 ];
 
 import { defineComponent, ref } from '@vue/composition-api';
+import { AuthStore } from '../store/AuthStoreModule';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -104,6 +107,12 @@ export default defineComponent({
     const essentialLinks = ref(linksData);
 
     return {leftDrawerOpen, essentialLinks}
+  },
+  methods: {
+    logout() {
+      AuthStore.setAuthToken('');
+      this.$router.push("/login");
+    }
   }
 });
 </script>
